@@ -3,45 +3,51 @@ package service;
 import entity.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class TextParserService {
-    public Text parse(String src) {
+    private static final String CUT_SENTENCE_REGEX = "(?<=(?<![A-Z])\\. )";
+    private static final String CUT_PARAGRAPHS_REGEX = "\\n+";
+    private static final String CUT_TOKENS_REGEX = "\\s*\\s|[.]{3}|\\p{Punct}|[\\S&&\\P{Punct}]+";
 
-
-        return null;
-    }
-
-    private List<Sentence> parseSentence(String sentence) {
-        return null;
-    }
-
-
-    private List<Token> parseToken(String token) {
-        List<Token> tokens = new ArrayList<>();
-
-        if (token.contains("\\W") || token.contains("_")) {
-            String start = token.substring(0, 1);
-            String end = token.substring(token.length() - 1);
-
-            if (start.equals("_") || start.equals("\\W")) {
-                new Symbol(start);
-                token = token.substring(1);
-            }
-
-            List<Symbol> ends = new ArrayList<>();
-            while (end.equals("_") || end.equals("\\W")) {
-                token = token.substring(0, token.length() - 1);
-                ends.add(0, new Symbol(end));
-                end = token.substring(token.length() - 1);
-            }
-            tokens.add(new Word(token));
-            tokens.addAll(ends);
-            tokens.add(new Symbol(" "));
-        } else {
-            tokens.add(new Word(token));
-            tokens.add(new Symbol(" "));
+    public Text parseText(String text) {
+        if (text == null) {
+            throw new IllegalArgumentException("Text for is null");
         }
-        return tokens;
+        List<Paragraph> paragraphs = parseParagraphs(text);
+        return new Text(paragraphs);
+    }
+
+    private List<Paragraph> parseParagraphs(String text) {
+        String[] paragraphs = text.split(CUT_PARAGRAPHS_REGEX);
+        return Arrays.stream(paragraphs)
+                .map(this::parseSentences)
+                .map(Paragraph::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<Sentence> parseSentences(String paragraph) {
+        String[] sentences = paragraph.split(CUT_SENTENCE_REGEX);
+        return Arrays.stream(sentences)
+                .map(this::parseTokens)
+                .map(Sentence::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<Token> parseTokens(String sentence) {
+        List<String> splitElements = new ArrayList<>();
+        Pattern pattern = Pattern.compile(CUT_TOKENS_REGEX);
+        Matcher matcher = pattern.matcher(sentence);
+        while (matcher.find()) {
+            splitElements.add(matcher.group());
+        }
+        return splitElements.stream()
+                .map(element -> Character.isLetterOrDigit(element.charAt(0)) ?
+                        new Word(element) :
+                        new Symbol(element)).collect(Collectors.toList());
     }
 }
