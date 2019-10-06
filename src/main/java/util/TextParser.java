@@ -1,4 +1,4 @@
-package service;
+package util;
 
 import entity.*;
 
@@ -9,14 +9,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class TextParserService {
+public class TextParser {
     private static final String CUT_SENTENCE_REGEX = "(?<=(?<![A-Z])\\. )";
     private static final String CUT_PARAGRAPHS_REGEX = "\\n+";
     private static final String CUT_TOKENS_REGEX = "\\s*\\s|[.]{3}|\\p{Punct}|[\\S&&\\P{Punct}]+";
 
     public Text parseText(String text) {
         if (text == null) {
-            throw new IllegalArgumentException("Text for is null");
+            throw new IllegalArgumentException("Text is null");
         }
         List<Paragraph> paragraphs = parseParagraphs(text);
         return new Text(paragraphs);
@@ -33,6 +33,7 @@ public class TextParserService {
     private List<Sentence> parseSentences(String paragraph) {
         String[] sentences = paragraph.split(CUT_SENTENCE_REGEX);
         return Arrays.stream(sentences)
+                .map(String::trim)
                 .map(this::parseTokens)
                 .map(Sentence::new)
                 .collect(Collectors.toList());

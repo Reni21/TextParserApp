@@ -18,6 +18,6 @@ public class Text {
     public String toString() {
         return paragraphs.stream()
                 .map(Object::toString)
-                .collect(Collectors.joining("\n\n"));
+                .collect(Collectors.joining("\n"));
     }
 }
