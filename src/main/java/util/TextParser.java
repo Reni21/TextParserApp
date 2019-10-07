@@ -16,7 +16,7 @@ public class TextParser {
 
     public Text parseText(String text) {
         if (text == null) {
-            throw new IllegalArgumentException("Text is null");
+            throw new IllegalArgumentException("Source text-string is null.");
         }
         List<Paragraph> paragraphs = parseParagraphs(text);
         return new Text(paragraphs);

@@ -57,7 +57,7 @@ public class TextParserApp {
             rightTerminal = scanner.nextLine();
         }
         if (rightTerminal != null && handleInput(rightTerminal, text)) {
-            Text transformedText = textService.cutSubstringInEverySentence(text, leftTerminal.charAt(0), rightTerminal.charAt(0));
+            Text transformedText = textService.deleteSubstringInEverySentence(text, leftTerminal.charAt(0), rightTerminal.charAt(0));
             System.out.println(transformedText);
         }
     }

@@ -28,10 +28,14 @@ public class Sentence {
         }
     }
 
-    @Override
-    public String toString() {
+    public String getValue(){
         return tokens.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining());
+    }
+
+    @Override
+    public String toString() {
+        return getValue();
     }
 }

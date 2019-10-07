@@ -15,7 +15,10 @@ public class TextService {
         this.sentenceService = sentenceService;
     }
 
-    public Text cutSubstringInEverySentence(Text src, char from, char to) {
+    public Text deleteSubstringInEverySentence(Text src, char from, char to) {
+        if (src == null) {
+            throw new IllegalArgumentException("Source text is null.");
+        }
         List<Paragraph> transformedParagraphs = src.getParagraphs().stream().map(paragraph -> {
             List<Sentence> transformedSentences = paragraph.getSentences().stream().map(sentence -> {
                 try {
@@ -23,9 +26,11 @@ public class TextService {
                 } catch (SentenceDoesNotContainRequiredElementException ex) {
                     return sentenceService.cloneSentence(sentence);
                 }
-            }).collect(Collectors.toList());
+            }).filter(sentence -> !sentence.getTokens().isEmpty())
+                    .collect(Collectors.toList());
             return new Paragraph(transformedSentences);
-        }).collect(Collectors.toList());
+        }).filter(paragraph -> !paragraph.getSentences().isEmpty())
+                .collect(Collectors.toList());
         return new Text(transformedParagraphs);
     }
 }

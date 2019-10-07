@@ -1,5 +1,8 @@
 package entity;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public abstract class Token {
     private String value;
 

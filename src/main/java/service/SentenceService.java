@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class SentenceService {
     public Sentence deleteSequenceBetweenChars(Sentence sentence, char fromChar, char toChar) throws SentenceDoesNotContainRequiredElementException {
         if (sentence == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Source sentence is null.");
         }
         checkRequiredCharsExist(sentence, fromChar, toChar);
         List<Token> tokens = sentence.getTokens();
@@ -32,11 +32,12 @@ public class SentenceService {
                 .anyMatch(value -> value.contains(String.valueOf(fromChar)));
         boolean toExist = tokens.stream()
                 .map(Token::getValue)
-                .anyMatch(value -> value.contains(String.valueOf(toChar)));;
+                .anyMatch(value -> value.contains(String.valueOf(toChar)));
+        ;
 
         if (!fromExist && !toExist) {
             throw new SentenceDoesNotContainRequiredElementException(
-                    String.format("Sentence does not contain required chars: %s , %s.", fromChar, toChar)
+                    String.format("Sentence does not contain required chars: %s, %s.", fromChar, toChar)
             );
         }
         if (!fromExist || !toExist) {
@@ -67,8 +68,8 @@ public class SentenceService {
         return result;
     }
 
-    private Token createNewTokenConsideringSubtype(Token token, String value){
-        if (token instanceof Word){
+    private Token createNewTokenConsideringSubtype(Token token, String value) {
+        if (token instanceof Word) {
             return new Word(value);
         }
         return new Symbol(value);
@@ -85,7 +86,7 @@ public class SentenceService {
                 if (tokenValue.endsWith(terminalValue)) {
                     return result;
                 } else {
-                    String newValue = tokenValue.substring(tokenValue.indexOf(terminalValue) + 1);
+                    String newValue = tokenValue.substring(tokenValue.lastIndexOf(terminalValue) + 1);
                     result.add(0, createNewTokenConsideringSubtype(token, newValue));
                     return result;
                 }
@@ -95,8 +96,11 @@ public class SentenceService {
         }
         return result;
     }
-    
-    public Sentence cloneSentence(Sentence sentence){
+
+    public Sentence cloneSentence(Sentence sentence) {
+        if(sentence == null){
+            throw new IllegalArgumentException("Source sentence is null.");
+        }
         List<Token> cloneTokens = sentence.getTokens().stream()
                 .map(token -> createNewTokenConsideringSubtype(token, token.getValue()))
                 .collect(Collectors.toList());

@@ -1,8 +1,11 @@
 package entity;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode
 public class Paragraph {
     private List<Sentence> sentences;
 
@@ -14,10 +17,14 @@ public class Paragraph {
         return sentences;
     }
 
-    @Override
-    public String toString() {
+    public String getValue(){
         return sentences.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(" "));
+    }
+
+    @Override
+    public String toString() {
+        return getValue();
     }
 }

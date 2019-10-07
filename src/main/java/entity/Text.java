@@ -1,8 +1,12 @@
 package entity;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@EqualsAndHashCode
 public class Text {
     private List<Paragraph> paragraphs;
 
