@@ -1,21 +1,17 @@
 package entity;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
+@Getter
 @EqualsAndHashCode
 public class Paragraph {
     private List<Sentence> sentences;
-
-    public Paragraph(List<Sentence> sentences) {
-        this.sentences = sentences;
-    }
-
-    public List<Sentence> getSentences() {
-        return sentences;
-    }
 
     public String getValue(){
         return sentences.stream()
