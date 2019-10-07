@@ -11,9 +11,9 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class TextParserApp {
-    private static String INTRO = "Hello! It is the app for text modification.\n" +
-            "You can cut some part from every sentences. Choose two symbols which will be used for it.\n" +
-            "Use \"--q\" command for quite the app";
+    private static String INTRO = "\033[93mHello! It is the app for text modification.\n" +
+            "You can cut some part from every sentences. Choose two symbols which will be used for it (inclusive).\n" +
+            "Use \"--q\" command for quite the app\033[0m";
 
     private TextService textService;
 

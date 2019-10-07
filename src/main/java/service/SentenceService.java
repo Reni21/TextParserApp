@@ -9,6 +9,7 @@ import exception.SentenceDoesNotContainRequiredElementException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 public class SentenceService {
     public Sentence deleteSequenceBetweenChars(Sentence sentence, char fromChar, char toChar) throws SentenceDoesNotContainRequiredElementException {
@@ -56,17 +57,17 @@ public class SentenceService {
                     return result;
                 } else {
                     String newValue = tokenValue.substring(0, tokenValue.indexOf(terminalValue));
-                    result.add(createNewToken(token, newValue));
+                    result.add(createNewTokenConsideringSubtype(token, newValue));
                     return result;
                 }
             } else {
-                result.add(createNewToken(token, tokenValue));
+                result.add(createNewTokenConsideringSubtype(token, tokenValue));
             }
         }
         return result;
     }
 
-    private Token createNewToken(Token token, String value){
+    private Token createNewTokenConsideringSubtype(Token token, String value){
         if (token instanceof Word){
             return new Word(value);
         }
@@ -85,13 +86,20 @@ public class SentenceService {
                     return result;
                 } else {
                     String newValue = tokenValue.substring(tokenValue.indexOf(terminalValue) + 1);
-                    result.add(0, createNewToken(token, newValue));
+                    result.add(0, createNewTokenConsideringSubtype(token, newValue));
                     return result;
                 }
             } else {
-                result.add(0, createNewToken(token, tokenValue));
+                result.add(0, createNewTokenConsideringSubtype(token, tokenValue));
             }
         }
         return result;
+    }
+    
+    public Sentence cloneSentence(Sentence sentence){
+        List<Token> cloneTokens = sentence.getTokens().stream()
+                .map(token -> createNewTokenConsideringSubtype(token, token.getValue()))
+                .collect(Collectors.toList());
+        return new Sentence(cloneTokens);
     }
 }

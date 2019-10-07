@@ -21,7 +21,7 @@ public class TextService {
                 try {
                     return sentenceService.deleteSequenceBetweenChars(sentence, from, to);
                 } catch (SentenceDoesNotContainRequiredElementException ex) {
-                    return new Sentence(sentence.getTokens());
+                    return sentenceService.cloneSentence(sentence);
                 }
             }).collect(Collectors.toList());
             return new Paragraph(transformedSentences);
