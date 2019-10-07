@@ -1,4 +1,5 @@
 import entity.Text;
+import lombok.AllArgsConstructor;
 import service.SentenceService;
 import service.TextService;
 import util.TextParser;
@@ -10,17 +11,14 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class TextParserApp {
-    private static String INTRO = "\033[93mHello! It is the app for text modification.\n" +
+    private static final String INTRO = "\033[93mHello! It is the app for text modification.\n" +
             "You can cut some part from every sentences. Choose two symbols which will be used for it (inclusive).\n" +
             "\"--show\"     show source text\n" +
             "\"--q\"        command for quite the app\033[0m";
 
     private TextService textService;
-
-    public TextParserApp(TextService textService) {
-        this.textService = textService;
-    }
 
     public static void main(String[] args) {
         TextService textService = new TextService(new SentenceService());
@@ -86,7 +84,7 @@ public class TextParserApp {
         }
     }
 
-    public Text generateText() throws IOException {
+    private Text generateText() throws IOException {
         TextParser textParser = new TextParser();
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("text.txt");
 

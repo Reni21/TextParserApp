@@ -1,9 +1,9 @@
 package exception;
 
-public class SentenceDoesNotContainRequiredElementException extends Exception {
+import lombok.NoArgsConstructor;
 
-    public SentenceDoesNotContainRequiredElementException() {
-    }
+@NoArgsConstructor
+public class SentenceDoesNotContainRequiredElementException extends Exception {
 
     public SentenceDoesNotContainRequiredElementException(String message) {
         super(message);

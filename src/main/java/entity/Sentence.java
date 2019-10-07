@@ -1,26 +1,18 @@
 package entity;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
 public class Sentence {
     private List<Token> tokens;
-
-    public Sentence(List<Token> tokens) {
-        this.tokens = tokens;
-    }
-
-    public List<Token> getTokens() {
-        return tokens;
-    }
-
-    public int getSize() {
-        return tokens.size();
-    }
-
-    public void setTokens(List<Token> tokens) {
-        this.tokens = tokens;
-    }
 
     public void addToken(Token token) {
         if (tokens != null) {
