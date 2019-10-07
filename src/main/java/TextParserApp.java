@@ -1,26 +1,24 @@
 import entity.Text;
+import lombok.AllArgsConstructor;
 import service.SentenceService;
 import service.TextService;
 import util.TextParser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class TextParserApp {
-    private static String INTRO = "\033[93mHello! It is the app for text modification.\n" +
+    private static final String INTRO = "\033[93mHello! It is the app for text modification.\n" +
             "You can cut some part from every sentences. Choose two symbols which will be used for it (inclusive).\n" +
             "\"--show\"     show source text\n" +
             "\"--q\"        command for quite the app\033[0m";
 
     private TextService textService;
-
-    public TextParserApp(TextService textService) {
-        this.textService = textService;
-    }
 
     public static void main(String[] args) {
         TextService textService = new TextService(new SentenceService());
@@ -29,8 +27,8 @@ public class TextParserApp {
         try (Scanner scanner = new Scanner(System.in)) {
             Text text = app.generateText();
             app.runTextParserApp(text, scanner);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -47,12 +45,12 @@ public class TextParserApp {
         }
     }
 
-    private void requestAndProcessInput(Scanner scanner, Text text){
+    private void requestAndProcessInput(Scanner scanner, Text text) {
         System.out.println("\nEnter char to start cut from:");
         String leftTerminal = scanner.nextLine();
 
         String rightTerminal = null;
-        if(handleInput(leftTerminal, text)){
+        if (handleInput(leftTerminal, text)) {
             System.out.println("Enter char to start cut before:");
             rightTerminal = scanner.nextLine();
         }
@@ -63,7 +61,7 @@ public class TextParserApp {
     }
 
     private boolean handleInput(String input, Text text) {
-        switch (input){
+        switch (input) {
             case "--q":
                 System.out.println("You just quite the app...");
                 System.exit(0);
@@ -86,10 +84,14 @@ public class TextParserApp {
         }
     }
 
-    public Text generateText() throws IOException, URISyntaxException {
+    private Text generateText() throws IOException {
         TextParser textParser = new TextParser();
-        String textSrc = Files.lines(Paths.get(ClassLoader.getSystemResource("text.txt").toURI()))
-                .collect(Collectors.joining("\n"));
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("text.txt");
+
+        String textSrc;
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(is))) {
+            textSrc = buffer.lines().collect(Collectors.joining("\n"));
+        }
         return textParser.parseText(textSrc);
     }
 }

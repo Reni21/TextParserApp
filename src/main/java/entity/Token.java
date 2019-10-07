@@ -1,22 +1,14 @@
 package entity;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 @EqualsAndHashCode
 public abstract class Token {
     private String value;
-
-    public Token(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 
     @Override
     public String toString() {
