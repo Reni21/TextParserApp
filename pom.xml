@@ -6,7 +6,7 @@
 
     <groupId>reni.say.hi</groupId>
     <artifactId>TextParser</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>TextParser</version>
 
     <build>
         <plugins>
@@ -33,7 +33,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>Main</mainClass>
+                                    <mainClass>TextParserApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -66,6 +66,5 @@
         </dependency>
 
     </dependencies>
-
 
 </project>

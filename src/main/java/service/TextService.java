@@ -4,16 +4,14 @@ import entity.Paragraph;
 import entity.Sentence;
 import entity.Text;
 import exception.SentenceDoesNotContainRequiredElementException;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class TextService {
     private SentenceService sentenceService;
-
-    public TextService(SentenceService sentenceService) {
-        this.sentenceService = sentenceService;
-    }
 
     public Text deleteSubstringInEverySentence(Text src, char from, char to) {
         if (src == null) {
