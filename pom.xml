@@ -6,7 +6,7 @@
 
     <groupId>reni.say.hi</groupId>
     <artifactId>TextParser</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>TextParser</version>
 
     <build>
         <plugins>
