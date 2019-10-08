@@ -1,7 +1,8 @@
 import entity.Text;
 import lombok.AllArgsConstructor;
-import service.SentenceService;
+import service.SentenceServiceImpl;
 import service.TextService;
+import service.TextServiceImpl;
 import util.TextParser;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class TextParserApp {
     private TextService textService;
 
     public static void main(String[] args) {
-        TextService textService = new TextService(new SentenceService());
+        TextService textService = new TextServiceImpl(new SentenceServiceImpl());
         TextParserApp app = new TextParserApp(textService);
 
         try (Scanner scanner = new Scanner(System.in)) {
