@@ -1,7 +1,8 @@
 import entity.Text;
 import lombok.AllArgsConstructor;
-import service.SentenceService;
+import service.SentenceServiceImpl;
 import service.TextService;
+import service.TextServiceImpl;
 import util.TextParser;
 
 import java.io.BufferedReader;
@@ -18,10 +19,10 @@ public class TextParserApp {
             "\"--show\"     show source text\n" +
             "\"--q\"        command for quite the app\033[0m";
 
-    private TextService textService;
+    private TextService textServiceImpl;
 
     public static void main(String[] args) {
-        TextService textService = new TextService(new SentenceService());
+        TextService textService = new TextServiceImpl(new SentenceServiceImpl());
         TextParserApp app = new TextParserApp(textService);
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -55,7 +56,7 @@ public class TextParserApp {
             rightTerminal = scanner.nextLine();
         }
         if (rightTerminal != null && handleInput(rightTerminal, text)) {
-            Text transformedText = textService.deleteSubstringInEverySentence(text, leftTerminal.charAt(0), rightTerminal.charAt(0));
+            Text transformedText = textServiceImpl.deleteSubstringInEverySentence(text, leftTerminal.charAt(0), rightTerminal.charAt(0));
             System.out.println(transformedText);
         }
     }

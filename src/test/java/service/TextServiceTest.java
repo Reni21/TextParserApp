@@ -19,13 +19,13 @@ import static testutil.DataProvider.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TextServiceTest {
     @Mock
-    private SentenceService sentenceService;
+    private SentenceServiceImpl sentenceService;
     @InjectMocks
-    private TextService instance;
+    private TextServiceImpl instance;
 
     @Before
     public void setUp() {
-        instance = new TextService(sentenceService);
+        instance = new TextServiceImpl(sentenceService);
     }
 
     @Test

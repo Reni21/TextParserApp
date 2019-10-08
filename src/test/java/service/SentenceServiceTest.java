@@ -14,13 +14,13 @@ import static org.junit.Assert.*;
 import static testutil.DataProvider.*;
 
 public class SentenceServiceTest {
-    private SentenceService instance;
+    private SentenceServiceImpl instance;
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        instance = new SentenceService();
+        instance = new SentenceServiceImpl();
     }
 
     // deleteSequenceBetweenChars(Sentence sentence, char fromChar, char toChar) method tests
