@@ -49,6 +49,7 @@ public class TextParser {
         return splitElements.stream()
                 .map(element -> Character.isLetterOrDigit(element.charAt(0)) ?
                         new Word(element) :
-                        new Symbol(element)).collect(Collectors.toList());
+                        new Symbol(element))
+                .collect(Collectors.toList());
     }
 }

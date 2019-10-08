@@ -84,7 +84,11 @@ public class TextParserApp {
         }
     }
 
+<<<<<<< HEAD
     private Text generateText() throws IOException {
+=======
+    public Text generateText() throws IOException {
+>>>>>>> f626f45048508991d26aecf705c7dec86ee9e8f1
         TextParser textParser = new TextParser();
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("text.txt");
 
